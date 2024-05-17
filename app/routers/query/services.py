@@ -30,5 +30,11 @@ def update_error_log(error_log_path):
 
     # Add error log file to the collection documents
     with open(f"error_logs/{error_log_path}", "r", encoding="utf-8") as f:
-        collection.add(documents=f.read(), metadatas={
-                       "source": error_log_path, "timestamp": current_time}, ids=error_log_path)
+        collection.add(
+            documents=f.read(),
+            metadatas={
+                "source": error_log_path,
+                "timestamp": current_time
+            },
+            ids=error_log_path
+        )
