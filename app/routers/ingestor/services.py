@@ -9,8 +9,8 @@ config.read('error-config.ini')
 fmt = config.get('logging_format', 'format', raw=True)
 
 
-def get_log_level_names():
-    return config['error_levels']
+def get_log_path(api_name):
+    return config['logging_file_paths'][api_name]
 
 
 class LogFilter(logging.Filter):
