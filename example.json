@@ -1,0 +1,16 @@
+{
+    "level": "NEW",
+    "log_string": "Hello, World!",
+    "timestamp": "2024-05-16 02:42:14,758",
+    "metadata": {
+        "source": "root"
+    }
+}
+{
+    "level": "DEBUG",
+    "log_string": "This is a debug message",
+    "timestamp": "2024-05-16 02:42:14,758",
+    "metadata": {
+        "source": "root"
+    }
+}
