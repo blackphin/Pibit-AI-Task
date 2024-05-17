@@ -48,7 +48,7 @@ def setup_logger(logger_name, level=1):
 
     # Declare file and stream handlers
     fileHandler = logging.FileHandler(
-        f'{logger_name}.log', mode='w')
+        f'error_logs/{logger_name}.log', mode='a')
     formatter = logging.Formatter(fmt)
     fileHandler.setFormatter(formatter)
     streamHandler = logging.StreamHandler()
@@ -69,6 +69,7 @@ loggers = {api_name: setup_logger(
 def log_error(api_name: str, message: str, level: int):
     log = loggers[api_name]
     log.log(level, message)
+
 
 # setup_logger('log1')
 # setup_logger('log2')
