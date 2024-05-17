@@ -9,6 +9,10 @@ config.read('error-config.ini')
 fmt = config.get('logging_format', 'format', raw=True)
 
 
+def get_log_level_names():
+    return config['error_levels']
+
+
 class LogFilter(logging.Filter):
     def __init__(self, log_file: str):
         self.log_file = log_file
@@ -55,18 +59,32 @@ def setup_logger(logger_name, level=1):
     l.addHandler(fileHandler)
     l.addHandler(streamHandler)
 
+    return logging.getLogger(logger_name)
 
-setup_logger('log1')
-setup_logger('log2')
-setup_logger('log3')
 
-log1 = logging.getLogger('log1')
-log2 = logging.getLogger('log2')
-log3 = logging.getLogger('log3')
+def get_loggers():
+    return {api_name: setup_logger(config["logging_file_paths"][api_name]) for api_name in config["logging_file_paths"]}
 
-log1.info('Info for log 1!')
-log1.log(1, "Hello, World1!")
-log2.info('Info for log 2!')
-log2.log(2, "Hello, World2!")
-log3.info('Info for log 3!')
-log3.log(3, "Hello, World3!")
+
+# l1 = get_loggers()["name_1"]
+# l1.log(1, "Hello, World1!")
+
+# setup_logger('log1')
+# setup_logger('log2')
+# setup_logger('log3')
+
+# log1 = logging.getLogger('log1')
+# log2 = logging.getLogger('log2')
+# log3 = logging.getLogger('log3')
+
+
+# log1 = setup_logger('log1')
+# log2 = setup_logger('log2')
+# log3 = setup_logger('log3')
+
+# log1.info('Info for log 1!')
+# log1.log(1, "Hello, World1!")
+# log2.info('Info for log 2!')
+# log2.log(2, "Hello, World2!")
+# log3.info('Info for log 3!')
+# log3.log(3, "Hello, World3!")
