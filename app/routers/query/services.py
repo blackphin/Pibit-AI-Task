@@ -26,7 +26,7 @@ def update_error_log(error_log_path):
         pass
 
     # Current Time
-    current_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    current_time = datetime.timestamp(datetime.now())
 
     # Add error log file to the collection documents
     with open(f"error_logs/{error_log_path}", "r", encoding="utf-8") as f:
