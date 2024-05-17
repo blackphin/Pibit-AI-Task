@@ -5,6 +5,9 @@ venv
 # Environment Variables
 .env
 
+# Chroma DB
+chroma.db
+
 # Temp/Internal Files
 __pycache__
 
