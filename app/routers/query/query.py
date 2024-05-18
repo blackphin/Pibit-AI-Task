@@ -1,5 +1,6 @@
 # System Imports
 from datetime import datetime
+import pytz
 from typing import Annotated, Optional
 
 # FastAPI Imports
@@ -11,20 +12,22 @@ from routers.query import schemas
 # Services Imports
 from routers.query import services
 
+utc = pytz.UTC
+
 router = APIRouter(tags=['Query Interface'], prefix='/query')
 
+
 # Health Check
-
-
 @router.get("/healthcheck", status_code=status.HTTP_200_OK)
 def current_status():
     return {"status": "Query Interface Active"}
 
 
+# Query Interface
 @router.get("/search", status_code=status.HTTP_200_OK)
 def search_logs(
     start_timestamp: Optional[datetime] = None,
-    end_timestamp: Optional[datetime] = datetime.now(),
+    end_timestamp: Optional[datetime] = utc.localize(datetime.now()),
     level: Optional[str] = None,
     log_string: Optional[str] = "level",
     source: Optional[str] = None,
@@ -51,14 +54,16 @@ def search_logs(
                     "$lte": datetime.timestamp(end_timestamp),
                 }
                 },
-
-                # {"level": level if level is not None else {"$ne": "None"}}
             ]
         },
 
         where_document={
-            "$contains": log_string
+            "$and": [
+                {"$contains": log_string if log_string is not None else "metadata"},
+
+                {"$contains": level if level is not None else "metadata"}
+            ]
         }
     )
 
-    return query_result
+    return {"ids": query_result["ids"], "documents": query_result["documents"]}
