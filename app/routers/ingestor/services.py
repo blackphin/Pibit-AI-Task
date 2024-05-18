@@ -3,16 +3,20 @@ from __future__ import absolute_import
 import configparser
 import logging
 
+# Read the logging configuration
 config = configparser.ConfigParser()
 config.read('error-config.ini')
 
+# Get the logging format
 fmt = config.get('logging_format', 'format', raw=True)
 
 
+# Get the log path by API name
 def get_log_path(api_name):
     return config['logging_file_paths'][api_name]
 
 
+# Create a logging filter for source
 class LogFilter(logging.Filter):
     def __init__(self, log_file: str):
         self.log_file = log_file
@@ -22,6 +26,7 @@ class LogFilter(logging.Filter):
         return True
 
 
+# Setup the logger
 def setup_logger(logger_name, level=1):
     l = logging.getLogger(logger_name)
 
@@ -62,31 +67,12 @@ def setup_logger(logger_name, level=1):
     return logging.getLogger(logger_name)
 
 
+# Create loggers for each API
 loggers = {api_name: setup_logger(
     config["logging_file_paths"][api_name]) for api_name in config["logging_file_paths"]}
 
 
+# Log error
 def log_error(api_name: str, message: str, level: int):
     log = loggers[api_name]
     log.log(level, message)
-
-
-# setup_logger('log1')
-# setup_logger('log2')
-# setup_logger('log3')
-
-# log1 = logging.getLogger('log1')
-# log2 = logging.getLogger('log2')
-# log3 = logging.getLogger('log3')
-
-
-# log1 = setup_logger('log1')
-# log2 = setup_logger('log2')
-# log3 = setup_logger('log3')
-
-# log1.info('Info for log 1!')
-# log1.log(1, "Hello, World1!")
-# log2.info('Info for log 2!')
-# log2.log(2, "Hello, World2!")
-# log3.info('Info for log 3!')
-# log3.log(3, "Hello, World3!")
