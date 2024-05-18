@@ -56,7 +56,11 @@ This service provides two main functionalities:
    ```sh
    pip install -r requirements.txt
    ```
-5. **Run the Uvicorn Server**:
+5. **Add folder for storing logs**:
+   ```ssh
+   mkdir "app/error_logs"
+   ```
+7. **Run the Uvicorn Server**:
    - On Windows:
      ```sh
      run
